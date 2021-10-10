@@ -1,44 +1,49 @@
 <?php
 
-#EXTENSIÓN DE CLASES: Los objetos pueden ser extendidos, y pueden heredar propiedades y métodos. Para definir una clase como extensión, debo definir una clase padre, y se utiliza dentro de una clase hija.
+		include 'conexion.php';
 
-require_once "conexion.php";
+			$nombre = $_POST ['nombreRegistro'];
+			$apellido = $_POST ['apellidosRegistro'];
+			$pass = $_POST ['passwordRegistro'];
+			$email = $_POST ['emailRegistro'];
 
-class Datos extends Conexion{
 
-	#REGISTRO DE USUARIOS
-	#-------------------------------------
-	public function registroUsuarioModel($datosModel, $tabla){
+			$query = "INSERT INTO usuarios(nombre, apellido, pass, email) 
+					  VALUES ('$nombre', '$apellido', '$pass', '$email')";
 
-		#prepare() Prepara una sentencia SQL para ser ejecutada por el método PDOStatement::execute(). La sentencia SQL puede contener cero o más marcadores de parámetros con nombre (:name) o signos de interrogación (?) por los cuales los valores reales serán sustituidos cuando la sentencia sea ejecutada. Ayuda a prevenir inyecciones SQL eliminando la necesidad de entrecomillar manualmente los parámetros.
+			//Verificar que el correo no se repita en la base de datos
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, apellidos, password, email) VALUES (:nombre,:apellidos,:password,:email)");	
+			$verificar_email = mysqli_query($conexion, "SELECT * FROM usuarios WHERE email='$email' ");
+			if(mysqli_num_rows($verificar_emal) > 0){
+				echo '
+					<script>
+							alert("Correo ya Registrado");
+							window.location = "../views/pages/Register.php";
+					</script>
+				
+				';
+				exit();
+			}
 
-		#bindParam() Vincula una variable de PHP a un parámetro de sustitución con nombre o de signo de interrogación correspondiente de la sentencia SQL que fue usada para preparar la sentencia.
+			$ejecutar = mysqli_query($conexion, $query);
 
-		$stmt->bindParam(":nombre", $datosModel["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":apellidos", $datosModel["apellidos"], PDO::PARAM_STR);
-		$stmt->bindParam(":password", $datosModel["password"], PDO::PARAM_STR);
-		$stmt->bindParam(":email", $datosModel["email"], PDO::PARAM_STR);
+			if($ejecutar){
+				echo '
+					<script>
+							alert("Usuario Registrado Correctamente");
+							window.location = "../index.php";
+					</script>
+				';
+			}else{
+				'
+					<script>
+							alert("Usuario no Registrado intente de nuevo");
+							window.location = "../views/pages/login.php";					
+					</script>
+				
+				';
+			}
 
-		#$stmt->execute();
-
-		if($stmt->execute()){
-
-			return "success";
-
-		}
- 
-		else{
-
-			return "error";
-
-		}
-
-		#$stmt->close();
-
-	}
-
-}
+			mysqli_close($conexion);
 
 ?> 

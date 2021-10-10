@@ -7,12 +7,12 @@
 
  $conexion = mysqli_connect("localhost", "root","","deigo_ti");
 
- 	if($conexion){
-		 echo "Conectado";
+ 	/**if($conexion){
+		 echo "Conectado Exitosamente";
 	 }else{
-		 echo "no se conecto";
+		 echo "Upps Algo para Revisa tu conexion";
 	 }
-
+	 	*/
 
 
 ?>

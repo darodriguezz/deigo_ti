@@ -36,7 +36,7 @@
               </div>
 
            
-              <form method="post" class="user" >
+              <form action="../../models/crudusers.php" method="post"  >
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text"  name="nombreRegistro" placeholder="Nombre" class="form-control form-control-user" required>
@@ -64,22 +64,14 @@
                 </a>
               </form>
               
-                <?php
-
-                $reg = new inicio();
-                $reg -> registroUsuarioController();
-
-                ?>
-
-
-
+                
 
               <hr>
               <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                <a class="small" href="forgot-password.html">¿Has olvidado tu contraseña?</a>
               </div>
               <div class="text-center">
-                <a class="small" href="login.php">Already have an account? Login!</a>
+                <a class="small" href="login.php">¿Ya tienes una cuenta? Inicie sesión.!</a>
               </div>
             </div>
           </div>
@@ -89,8 +81,8 @@
 
   </div>
 
-<!-- Bootstrap Script-->
-  <?php include "views/modulos/Script.php";?>
+
+  
 
 </body>
 
